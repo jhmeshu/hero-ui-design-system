@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HeroUI Design System - Ultimate Container & Layout Library</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN with configuration -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          },
+          colors: {
+            // HeroUI v3 Semantic Color Tokens
+            background: 'var(--heroui-bg)',
+            foreground: 'var(--heroui-fg)',
+            content1: 'var(--heroui-content1)',
+            content2: 'var(--heroui-content2)',
+            content3: 'var(--heroui-content3)',
+            content4: 'var(--heroui-content4)',
+            divider: 'var(--heroui-divider)',
+            focus: 'var(--heroui-focus)',
+            surface: {
+              DEFAULT: 'var(--heroui-surface)',
+              secondary: 'var(--heroui-surface-secondary)',
+              tertiary: 'var(--heroui-surface-tertiary)',
+            },
+            primary: {
+              DEFAULT: '#006fee',
+              foreground: '#ffffff',
+              50: '#e6f1fe',
+              100: '#cce3fd',
+              200: '#99c7fb',
+              300: '#66aaf9',
+              400: '#338ef7',
+              500: '#006fee',
+              600: '#005bc4',
+              700: '#004493',
+              800: '#002e62',
+              900: '#001731',
+            },
+            secondary: {
+              DEFAULT: '#7828c8',
+              foreground: '#ffffff',
+              50: '#f2e8fc',
+              500: '#7828c8',
+              600: '#6020a0',
+            },
+            success: {
+              DEFAULT: '#17c964',
+              foreground: '#000000',
+              50: '#e8faf0',
+              500: '#17c964',
+              600: '#12a150',
+            },
+            warning: {
+              DEFAULT: '#f5a524',
+              foreground: '#000000',
+              50: '#fef5e6',
+              500: '#f5a524',
+              600: '#c4841d',
+            },
+            danger: {
+              DEFAULT: '#f31260',
+              foreground: '#ffffff',
+              50: '#fee7ef',
+              500: '#f31260',
+              600: '#c20e4d',
+            },
+            muted: {
+              DEFAULT: 'var(--heroui-muted)',
+              foreground: 'var(--heroui-muted-fg)',
+            }
+          },
+          boxShadow: {
+            'heroui-sm': '0 2px 8px -2px rgba(0, 0, 0, 0.05), 0 1px 4px -1px rgba(0, 0, 0, 0.06)',
+            'heroui-md': '0 4px 20px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04)',
+            'heroui-lg': '0 12px 32px -4px rgba(0, 0, 0, 0.12), 0 4px 12px -2px rgba(0, 0, 0, 0.06)',
+            'heroui-xl': '0 20px 48px -6px rgba(0, 0, 0, 0.18), 0 8px 24px -4px rgba(0, 0, 0, 0.08)',
+            'heroui-glow-primary': '0 0 35px -5px rgba(0, 111, 238, 0.35)',
+            'heroui-glow-secondary': '0 0 35px -5px rgba(120, 40, 200, 0.35)',
+            'heroui-glow-success': '0 0 35px -5px rgba(23, 201, 100, 0.35)',
+          },
+          borderRadius: {
+            'heroui-xs': '6px',
+            'heroui-sm': '8px',
+            'heroui-md': '12px',
+            'heroui-lg': '16px',
+            'heroui-xl': '20px',
+            'heroui-2xl': '24px',
+            'heroui-3xl': '32px',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* CSS Variables for HeroUI Dynamic Theming */
+    :root {
+      --heroui-bg: #ffffff;
+      --heroui-fg: #11181c;
+      --heroui-content1: #ffffff;
+      --heroui-content2: #f4f4f5;
+      --heroui-content3: #e4e4e7;
+      --heroui-content4: #d4d4d8;
+      --heroui-divider: rgba(17, 24, 28, 0.08);
+      --heroui-focus: #006fee;
+      --heroui-surface: #ffffff;
+      --heroui-surface-secondary: #f4f4f5;
+      --heroui-surface-tertiary: #e4e4e7;
+      --heroui-muted: #f4f4f5;
+      --heroui-muted-fg: #71717a;
+      --grid-dot-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .dark {
+      --heroui-bg: #000000;
+      --heroui-fg: #ecedee;
+      --heroui-content1: #18181b;
+      --heroui-content2: #27272a;
+      --heroui-content3: #3f3f46;
+      --heroui-content4: #52525b;
+      --heroui-divider: rgba(255, 255, 255, 0.12);
+      --heroui-focus: #006fee;
+      --heroui-surface: #121214;
+      --heroui-surface-secondary: #18181b;
+      --heroui-surface-tertiary: #27272a;
+      --heroui-muted: #18181b;
+      --heroui-muted-fg: #a1a1aa;
+      --grid-dot-color: rgba(255, 255, 255, 0.07);
+    }
+
+    /* Ambient Background Dot Grid */
+    .bg-dot-pattern {
+      background-image: radial-gradient(var(--grid-dot-color) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    .bg-grid-pattern {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, var(--heroui-divider) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--heroui-divider) 1px, transparent 1px);
+    }
+
+    /* Smooth Scroll & Custom Scrollbar */
+    html {
+      scroll-behavior: smooth;
+    }
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--heroui-content3);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--heroui-content4);
+    }
+
+    /* Glassmorphism helpers */
+    .glass-surface {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    .dark .glass-surface {
+      background: rgba(18, 18, 20, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+    }
+
+    /* Scroll Shadow Simulation */
+    .scroll-shadow-y {
+      background: 
+        linear-gradient(var(--heroui-content1) 30%, rgba(255, 255, 255, 0)),
+        linear-gradient(rgba(255, 255, 255, 0), var(--heroui-content1) 70%) 0 100%,
+        radial-gradient(farthest-side at 50% 0, rgba(0,0,0,.2), rgba(0,0,0,0)),
+        radial-gradient(farthest-side at 50% 100%, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
+      background-repeat: no-repeat;
+      background-color: var(--heroui-content1);
+      background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+      background-attachment: local, local, scroll, scroll;
+    }
+
+    /* Animated gradient borders */
+    .gradient-border-primary {
+      position: relative;
+    }
+    .gradient-border-primary::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(135deg, #006fee, #7828c8, #17c964);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    /* Copy tooltip animation */
+    @keyframes pulseSuccess {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+    .btn-copied {
+      animation: pulseSuccess 0.3s ease-in-out;
+    }
+  </style>
+</head>
+
+<body class="bg-background text-foreground min-h-screen font-sans antialiased transition-colors duration-200 bg-dot-pattern">
+
+  <!-- ========================================== -->
+  <!-- TOP STICKY NAVIGATION BAR -->
+  <!-- ========================================== -->
+  <header class="sticky top-0 z-50 w-full border-b border-divider glass-surface">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-primary to-secondary flex items-center justify-center shadow-heroui-glow-primary text-white font-bold text-lg">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-lg tracking-tight">HeroUI</span>
+            <span class="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary font-semibold border border-primary/20">Design System</span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded-md bg-content3 text-muted-foreground font-mono">v3 + TW v4</span>
+          </div>
+          <p class="text-[11px] text-muted-foreground hidden sm:block">Complete Container & Layout Master Specification</p>
+        </div>
+      </div>
+
+      <!-- Quick Category Jump Navigation -->
+      <nav class="hidden lg:flex items-center gap-1 text-xs font-medium text-muted-foreground">
+        <a href="#page-shells" class="px-2.5 py-1.5 rounded-lg hover:text-foreground hover:bg-content2 transition">Page Shells</a>
+        <a href="#hero-containers" class="px-2.5 py-1.5 rounded-lg hover:text-foreground hover:bg-content2 transition">Hero Sections</a>
+        <a href="#cards-surfaces" class="px-2.5 py-1.5 rounded-lg hover:text-foreground hover:bg-content2 transition">Cards & Surfaces</a>
+        <a href="#bento-grids" class="px-2.5 py-1.5 rounded-lg hover:text-foreground hover:bg-content2 transition">Bento Grids</a>
+        <a href="#dashboard-layouts" class="px-2.5 py-1.5 rounded-lg hover:text-foreground hover:bg-content2 transition">Dashboards</a>
+        <a href="#form-containers" class="px-2.5 py-1.5 rounded-lg hover:text-foreground hover:bg-content2 transition">Forms</a>
+        <a href="#overlays-dialogs" class="px-2.5 py-1.5 rounded-lg hover:text-foreground hover:bg-content2 transition">Dialogs</a>
+        <a href="#banners-feedback" class="px-2.5 py-1.5 rounded-lg hover:text-foreground hover:bg-content2 transition">Feedback</a>
+      </nav>
+
+      <!-- Right Controls: Viewport Mode, Search & Theme Toggle -->
+      <div class="flex items-center gap-2.5">
+        
+        <!-- Search Filter Trigger -->
+        <div class="relative hidden sm:block">
+          <input 
+            type="text" 
+            id="containerSearch" 
+            placeholder="Search containers... (⌘K)" 
+            class="w-48 xl:w-60 h-8 pl-8 pr-3 text-xs bg-content2 border border-divider rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground"
+            oninput="filterContainers(this.value)"
+          />
+          <svg class="w-3.5 h-3.5 text-muted-foreground absolute left-2.5 top-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+
+        <!-- Dark/Light Theme Toggle -->
+        <button 
+          id="themeToggleBtn"
+          onclick="toggleTheme()" 
+          title="Toggle Theme"
+          class="w-9 h-9 flex items-center justify-center rounded-xl bg-content2 hover:bg-content3 border border-divider text-foreground transition"
+        >
+          <!-- Sun Icon (Dark Mode Active) -->
+          <svg id="sunIcon" class="w-4 h-4 hidden dark:block text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <!-- Moon Icon (Light Mode Active) -->
+          <svg id="moonIcon" class="w-4 h-4 block dark:hidden text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+
+        <!-- Quick Copy Master Guide -->
+        <button 
+          onclick="copyPageHtml()" 
+          class="hidden sm:inline-flex items-center gap-1.5 px-3 h-9 text-xs font-semibold rounded-xl bg-primary text-white hover:bg-primary-600 shadow-sm transition active:scale-95"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          <span>Share Docs</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- ========================================== -->
+  <!-- MAIN CONTAINER SPECIFICATION HUB -->
+  <!-- ========================================== -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
+
+    <!-- ---------------------------------------------------- -->
+    <!-- HERO INTRO & TOKEN SPECS -->
+    <!-- ---------------------------------------------------- -->
+    <section class="relative overflow-hidden rounded-3xl border border-divider bg-gradient-to-b from-content1 via-content1/80 to-content2/40 p-8 sm:p-12 shadow-heroui-lg">
+      <div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-primary/10 blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-secondary/10 blur-3xl pointer-events-none"></div>
+
+      <div class="max-w-3xl space-y-4 relative z-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+          HeroUI v3 Production Ready Containers
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-foreground">
+          Every container your web application will ever need.
+        </h1>
+        <p class="text-base sm:text-lg text-muted-foreground leading-relaxed">
+          Pixel-perfect, unshakeable layout containers styled according to official <strong>HeroUI v3 React</strong> standards & <strong>Tailwind CSS v4</strong> architecture. Fully responsive, zero layout shifts, built with semantic HTML and accessible states.
+        </p>
+
+        <!-- Quick filter chips -->
+        <div class="pt-3 flex flex-wrap items-center gap-2">
+          <span class="text-xs font-semibold text-muted-foreground mr-1">Filter by type:</span>
+          <button onclick="filterCategory('all')" class="cat-pill active px-3 py-1 rounded-full text-xs font-medium bg-primary text-white transition">All Containers (25+)</button>
+          <button onclick="filterCategory('layout')" class="cat-pill px-3 py-1 rounded-full text-xs font-medium bg-content2 hover:bg-content3 text-foreground transition">Page Shells</button>
+          <button onclick="filterCategory('hero')" class="cat-pill px-3 py-1 rounded-full text-xs font-medium bg-content2 hover:bg-content3 text-foreground transition">Hero Sections</button>
+          <button onclick="filterCategory('card')" class="cat-pill px-3 py-1 rounded-full text-xs font-medium bg-content2 hover:bg-content3 text-foreground transition">Cards & Bento</button>
+          <button onclick="filterCategory('app')" class="cat-pill px-3 py-1 rounded-full text-xs font-medium bg-content2 hover:bg-content3 text-foreground transition">App & Dashboards</button>
+          <button onclick="filterCategory('form')" class="cat-pill px-3 py-1 rounded-full text-xs font-medium bg-content2 hover:bg-content3 text-foreground transition">Forms & Dialogs</button>
+          <button onclick="filterCategory('feedback')" class="cat-pill px-3 py-1 rounded-full text-xs font-medium bg-content2 hover:bg-content3 text-foreground transition">Banners & Feedback</button>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Ribbon -->
+      <div class="mt-8 pt-6 border-t border-divider grid grid-cols-2 sm:grid-cols-4 gap-4 text-center sm:text-left">
+        <div>
+          <div class="text-2xl font-bold text-foreground">100%</div>
+          <div class="text-xs text-muted-foreground">Tailwind v4 Native</div>
+        </div>
+        <div>
+          <div class="text-2xl font-bold text-foreground">10 Categories</div>
+          <div class="text-xs text-muted-foreground">Comprehensive Scope</div>
+        </div>
+        <div>
+          <div class="text-2xl font-bold text-foreground">1-Click Copy</div>
+          <div class="text-xs text-muted-foreground">Clean HTML Snippets</div>
+        </div>
+        <div>
+          <div class="text-2xl font-bold text-foreground">Zero Breakage</div>
+          <div class="text-xs text-muted-foreground">Box-sizing & Clamp safe</div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- ==================================================== -->
+    <!-- SECTION 1: CONTAINER SCALE & SIZING TOKENS -->
+    <!-- ==================================================== -->
+    <section id="sizing-tokens" class="container-section space-y-6" data-category="layout">
+      <div class="flex items-center justify-between border-b border-divider pb-3">
+        <div>
+          <h2 class="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
+            <span class="p-1.5 rounded-lg bg-primary/10 text-primary text-sm font-mono">01</span>
+            Container Sizing & Max-Width Hierarchy
+          </h2>
+          <p class="text-sm text-muted-foreground">Standardized max-width constraints for every content density.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Scale Demonstration Card -->
+        <div class="p-6 rounded-2xl bg-content1 border border-divider shadow-sm space-y-4">
+          <h3 class="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Standard Responsive Widths</h3>
+          
+          <div class="space-y-3 font-mono text-xs">
+            <!-- Full / Fluid -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-muted-foreground">
+                <span>Fluid Container</span>
+                <code>w-full max-w-none</code>
+              </div>
+              <div class="w-full h-7 rounded-lg bg-primary/20 border border-primary/40 flex items-center px-3 text-primary font-semibold">100% Fluid Width</div>
+            </div>
+
+            <!-- 2XL Container -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-muted-foreground">
+                <span>Desktop Master Shell (2XL)</span>
+                <code>max-w-7xl (1280px)</code>
+              </div>
+              <div class="w-[95%] h-7 rounded-lg bg-content3 border border-content4 flex items-center px-3 text-foreground">max-w-7xl</div>
+            </div>
+
+            <!-- XL Container -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-muted-foreground">
+                <span>Standard App Container (XL)</span>
+                <code>max-w-6xl (1152px)</code>
+              </div>
+              <div class="w-[85%] h-7 rounded-lg bg-content3 border border-content4 flex items-center px-3 text-foreground">max-w-6xl</div>
+            </div>
+
+            <!-- Large Container -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-muted-foreground">
+                <span>Focused Dashboard (LG)</span>
+                <code>max-w-5xl (1024px)</code>
+              </div>
+              <div class="w-[75%] h-7 rounded-lg bg-content3 border border-content4 flex items-center px-3 text-foreground">max-w-5xl</div>
+            </div>
+
+            <!-- Prose / Article -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-muted-foreground">
+                <span>Article / Reader Container</span>
+                <code>max-w-prose (65ch / ~680px)</code>
+              </div>
+              <div class="w-[60%] h-7 rounded-lg bg-secondary/20 border border-secondary/40 flex items-center px-3 text-secondary font-semibold">max-w-prose (~65ch)</div>
+            </div>
+
+            <!-- Narrow Modal / Auth Card -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-muted-foreground">
+                <span>Modal / Auth Form (MD/SM)</span>
+                <code>max-w-md (448px)</code>
+              </div>
+              <div class="w-[45%] h-7 rounded-lg bg-success/20 border border-success/40 flex items-center px-3 text-success font-semibold">max-w-md</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Padding & Radius System -->
+        <div class="p-6 rounded-2xl bg-content1 border border-divider shadow-sm space-y-4">
+          <h3 class="text-sm font-semibold uppercase tracking-wider text-muted-foreground">HeroUI Corner Radii & Elevation</h3>
+          
+          <div class="grid grid-cols-2 gap-3">
+            <div class="p-4 rounded-lg bg-content2 border border-divider text-center">
+              <div class="text-xs font-mono text-muted-foreground mb-1">rounded-lg (8px)</div>
+              <div class="text-xs font-semibold text-foreground">Buttons & Chips</div>
+            </div>
+            <div class="p-4 rounded-xl bg-content2 border border-divider text-center">
+              <div class="text-xs font-mono text-muted-foreground mb-1">rounded-xl (12px)</div>
+              <div class="text-xs font-semibold text-foreground">Inputs & Toolbars</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-content2 border border-divider text-center shadow-heroui-md">
+              <div class="text-xs font-mono text-muted-foreground mb-1">rounded-2xl (16px)</div>
+              <div class="text-xs font-semibold text-primary">Standard HeroUI Cards</div>
+            </div>
+            <div class="p-4 rounded-3xl bg-content2 border border-divider text-center shadow-heroui-lg">
+              <div class="text-xs font-mono text-muted-foreground mb-1">rounded-3xl (24px)</div>
+              <div class="text-xs font-semibold text-foreground">Modals & Hero Blocks</div>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-primary/5 border border-primary/20 text-xs text-muted-foreground space-y-1">
+            <div class="font-semibold text-foreground flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+              Standard Safe Padding Pattern
+            </div>
+            <p>Every page container MUST use <code>px-4 sm:px-6 lg:px-8</code> to prevent content from touching mobile screen edges.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- ==================================================== -->
+    <!-- SECTION 2: PAGE LAYOUT CONTAINERS & SHELLS -->
+    <!-- ==================================================== -->
+    <section id="page-shells" class="container-section space-y-8" data-category="layout">
+      <div class="flex items-center justify-between border-b border-divider pb-3">
+        <div>
+          <h2 class="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
+            <span class="p-1.5 rounded-lg bg-primary/10 text-primary text-sm font-mono">02</span>
+            Page Layout Containers & Responsive Shells
+          </h2>
+          <p class="text-sm text-muted-foreground">Standard master wrapper containers for websites, SaaS pages, and documentation.</p>
+        </div>
+      </div>
+
+      <!-- Container Item 1: Master Standard Container (max-w-7xl) -->
+      <div class="container-card bg-content1 border border-divider rounded-2xl overflow-hidden shadow-sm" data-name="master standard container">
+        <div class="px-5 py-3.5 border-b border-divider bg-content2/50 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+            <span class="text-xs font-mono font-semibold text-foreground">Container 2.1: Master App Page Container</span>
+            <span class="text-[11px] text-muted-foreground font-mono">max-w-7xl mx-auto px-4 sm:px-6 lg:px-8</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="copySnippet(this, 'code-shell-1')" class="px-2.5 py-1 rounded-lg text-xs bg-content3 hover:bg-content4 text-foreground font-medium flex items-center gap-1.5 transition">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+              <span>Copy HTML</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Preview -->
+        <div class="p-6 bg-content2/20">
+          <!-- The Container Under Preview -->
+          <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 rounded-xl border-2 border-dashed border-primary/40 bg-primary/5">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-primary/20">
+              <div>
+                <h3 class="text-lg font-bold text-foreground">Page Header Inside Master Container</h3>
+                <p class="text-xs text-muted-foreground">Standard 1280px constraint with adaptive gutter margins.</p>
+              </div>
+              <button class="px-4 py-2 rounded-xl bg-primary text-white text-xs font-semibold hover:bg-primary-600 transition">Action Button</button>
+            </div>
+            <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div class="p-4 rounded-xl bg-content1 border border-divider text-xs text-center text-muted-foreground">Column 1 (Responsive)</div>
+              <div class="p-4 rounded-xl bg-content1 border border-divider text-xs text-center text-muted-foreground">Column 2 (Responsive)</div>
+              <div class="p-4 rounded-xl bg-content1 border border-divider text-xs text-center text-muted-foreground">Column 3 (Responsive)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hidden Code Snippet for Copy -->
+        <template id="code-shell-1">
+<div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+  <!-- Header / Breadcrumbs -->
+  <header class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div>
+      <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">Dashboard</h1>
+      <p class="text-sm text-muted-foreground">Manage your workspace and projects</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <button class="px-4 py-2 rounded-xl bg-content2 hover:bg-content3 text-foreground text-sm font-medium transition">Filter</button>
+      <button class="px-4 py-2 rounded-xl bg-primary hover:bg-primary-600 text-white text-sm font-semibold transition">Create New</button>
+    </div>
+  </header>
+
+  <!-- Main Content Body -->
+  <main class="space-y-6">
+    <!-- Your content rows/grids go here -->
+  </main>
+</div>
+        </template>
+      </div>
+
+
+      <!-- Container Item 2: Constrained Prose / Reading Container -->
+      <div class="container-card bg-content1 border border-divider rounded-2xl overflow-hidden shadow-sm" data-name="prose reading article container">
+        <div class="px-5 py-3.5 border-b border-divider bg-content2/50 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+            <span class="text-xs font-mono font-semibold text-foreground">Container 2.2: Constrained Reading & Blog Container</span>
+            <span class="text-[11px] text-muted-foreground font-mono">max-w-3xl / max-w-prose mx-auto</span>
+          </div>
+          <button onclick="copySnippet(this, 'code-shell-2')" class="px-2.5 py-1 rounded-lg text-xs bg-content3 hover:bg-content4 text-foreground font-medium flex items-center gap-1.5 transition">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+            <span>Copy HTML</span>
+          </button>
+        </div>
+
+        <div class="p-6 bg-content2/20">
+          <div class="w-full max-w-3xl mx-auto px-4 py-6 rounded-xl border-2 border-dashed border-secondary/40 bg-secondary/5 space-y-3">
+            <div class="inline-block px-2.5 py-0.5 rounded-full bg-secondary/10 text-secondary text-[11px] font-semibold">Documentation / Article</div>
+            <h2 class="text-xl font-bold text-foreground">Optimal Typography Width Container</h2>
+            <p class="text-xs text-muted-foreground leading-relaxed">
+              When displaying long-form text, help articles, or blog posts, bounding the line length to <code>max-w-3xl</code> (approx 768px) or <code>max-w-prose</code> (65ch) prevents reader fatigue and maintains high legibility across 4K displays and tablets alike.
+            </p>
+          </div>
+        </div>
+
+        <template id="code-shell-2">
+<article class="w-full max-w-3xl mx-auto px-4 sm:px-6 py-10 space-y-6">
+  <header class="space-y-3">
+    <div class="flex items-center gap-2 text-xs text-primary font-medium">
+      <span>Changelog</span>
+      <span>•</span>
+      <time>Sep 15, 2026</time>
+    </div>
+    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">Introducing HeroUI v3</h1>
+    <p class="text-base text-muted-foreground">A breakthrough in performance and developer experience.</p>
+  </header>
+  <div class="prose dark:prose-invert max-w-none text-muted-foreground text-sm sm:text-base leading-relaxed space-y-4">
+    <p>HeroUI v3 is built from the ground up to support modern React and Tailwind v4 architecture...</p>
+  </div>
+</article>
+        </template>
+      </div>
+
+    </section>
+
+
+
+    <!-- ==================================================== -->
+    <!-- SECTION 3: HERO SECTION CONTAINERS -->
+    <!-- ==================================================== -->
+    <section id="hero-containers" class="container-section space-y-8" data-category="hero">
+      <div class="flex items-center justify-between border-b border-divider pb-3">
+        <div>
+          <h2 class="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
+            <span class="p-1.5 rounded-lg bg-primary/10 text-primary text-sm font-mono">03</span>
+            Hero Section Containers
+          </h2>
+          <p class="text-sm text-muted-foreground">High-impact landing page hero wrappers with ambient glow & split grids.</p>
+        </div>
+      </div>
+
+      <!-- Hero 3.1: Centered Glow Mesh Hero -->
+      <div class="container-card bg-content1 border border-divider rounded-2xl overflow-hidden shadow-sm" data-name="centered glow mesh hero container">
+        <div class="px-5 py-3.5 border-b border-divider bg-content2/50 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+            <span class="text-xs font-mono font-semibold text-foreground">Container 3.1: Ambient Mesh Centered Hero</span>
+          </div>
+          <button onclick="copySnippet(this, 'code-hero-1')" class="px-2.5 py-1 rounded-lg text-xs bg-content3 hover:bg-content4 text-foreground font-medium flex items-center gap-1.5 transition">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+            <span>Copy HTML</span>
+          </button>
+        </div>
+
+        <div class="p-4 sm:p-8 bg-content2/10">
+          <!-- Actual Live Hero Container -->
+          <div class="relative overflow-hidden rounded-3xl border border-divider bg-gradient-to-b from-content1 to-background px-6 py-12 sm:py-20 text-center">
+            
+            <!-- Ambient Glow Spots -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/20 rounded-full blur-[100px] pointer-events-none"></div>
+            <div class="absolute top-1/3 left-1/3 w-64 h-64 bg-secondary/15 rounded-full blur-[80px] pointer-events-none"></div>
+
+            <div class="relative z-10 max-w-3xl mx-auto space-y-6">
+              
+              <!-- Badge Pill -->
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-content2 border border-divider text-xs font-medium text-foreground hover:border-primary/50 cursor-pointer transition">
+                <span class="flex h-2 w-2 rounded-full bg-primary"></span>
+                <span>HeroUI v3 is officially live</span>
+                <svg class="w-3.5 h-3.5 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </div>
+
+              <!-- Main Heading -->
+              <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground">
+                Build beautiful websites in <span class="bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent">record time</span>.
+              </h1>
+
+              <!-- Subtitle -->
+              <p class="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
+                A modern UI component library built on React Aria and Tailwind CSS v4. Seamlessly crafted for modern web experiences.
+              </p>
+
+              <!-- Actions Group -->
+              <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+                <button class="h-11 px-6 rounded-2xl bg-primary text-white text-sm font-semibold hover:bg-primary-600 shadow-heroui-glow-primary transition active:scale-95">
+                  Get Started Free
+                </button>
+                <button class="h-11 px-6 rounded-2xl bg-content2 hover:bg-content3 border border-divider text-foreground text-sm font-semibold transition active:scale-95 flex items-center gap-2">
+                  <svg class="w-4 h-4 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  <span>Watch Demo</span>
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <template id="code-hero-1">
+<section class="relative overflow-hidden rounded-3xl border border-divider bg-gradient-to-b from-content1 to-background px-6 py-16 sm:py-24 text-center">
+  <!-- Ambient Glow Gradients -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/20 rounded-full blur-[100px] pointer-events-none"></div>
+  <div class="absolute top-1/3 left-1/3 w-64 h-64 bg-secondary/15 rounded-full blur-[80px] pointer-events-none"></div>
+
+  <div class="relative z-10 max-w-3xl mx-auto space-y-6">
+    <!-- Announcement Badge -->
+    <a href="#" class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-content2 border border-divider text-xs font-medium text-foreground hover:border-primary/50 transition">
+      <span class="flex h-2 w-2 rounded-full bg-primary animate-ping"></span>
+      <span>What's new in v3.0</span>
+      <svg class="w-3.5 h-3.5 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+    </a>
+
+    <!-- Headline -->
+    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-foreground">
+      Build modern apps with <span class="bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent">HeroUI</span>
+    </h1>
+
+    <!-- Subtitle -->
+    <p class="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto">
+      Fully styled, accessible UI components ready for your Next.js and Tailwind CSS projects.
+    </p>
+
+    <!-- CTAs -->
+    <div class="flex flex-wrap items-center justify-center gap-3 pt-4">
+      <button class="h-12 px-6 rounded-2xl bg-primary text-white text-sm font-semibold hover:bg-primary-600 shadow-heroui-glow-primary transition">Get Started</button>
+      <button class="h-12 px-6 rounded-2xl bg-content2 hover:bg-content3 border border-divider text-foreground text-sm font-semibold transition">View Docs</button>
+    </div>
+  </div>
+</section>
+        </template>
+      </div>
+
+
+      <!-- Hero 3.2: Split 2-Column Hero with Interactive Canvas -->
+      <div class="container-card bg-content1 border border-divider rounded-2xl overflow-hidden shadow-sm" data-name="split two column hero container">
+        <div class="px-5 py-3.5 border-b border-divider bg-content2/50 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-success"></span>
+            <span class="text-xs font-mono font-semibold text-foreground">Container 3.2: Split 2-Column Product Hero</span>
+          </div>
+          <button onclick="copySnippet(this, 'code-hero-2')" class="px-2.5 py-1 rounded-lg text-xs bg-content3 hover:bg-content4 text-foreground font-medium flex items-center gap-1.5 transition">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+            <span>Copy HTML</span>
+          </button>
+        </div>
+
+        <div class="p-4 sm:p-8 bg-content2/10">
+          <div class="rounded-3xl border border-divider bg-content1 p-6 sm:p-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              
+              <!-- Left Column: Copy & Form -->
+              <div class="lg:col-span-6 space-y-5">
+                <span class="px-2.5 py-1 rounded-md bg-success/10 text-success text-xs font-semibold">Instant Deployment</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">Deploy high speed interfaces with zero fuss.</h2>
+                <p class="text-sm text-muted-foreground leading-relaxed">
+                  Compose production applications with pre-configured accessible containers, smart layout grids, and seamless light/dark mode theming.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-2.5 pt-2">
+                  <input type="email" placeholder="Enter your email" class="h-11 px-4 text-xs rounded-xl bg-content2 border border-divider text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary flex-1" />
+                  <button class="h-11 px-5 rounded-xl bg-primary text-white text-xs font-semibold hover:bg-primary-600 transition whitespace-nowrap">Join Waitlist</button>
+                </div>
+                <div class="flex items-center gap-4 text-xs text-muted-foreground">
+                  <span class="flex items-center gap-1">✓ No credit card required</span>
+                  <span class="flex items-center gap-1">✓ Free forever tier</span>
+                </div>
+              </div>
+
+              <!-- Right Column: Interactive App Preview Frame -->
+              <div class="lg:col-span-6">
+                <div class="rounded-2xl border border-divider bg-content2 p-4 shadow-heroui-lg space-y-3">
+                  <!-- Mock Browser Header -->
+                  <div class="flex items-center justify-between pb-3 border-b border-divider">
+                    <div class="flex items-center gap-1.5">
+                      <div class="w-3 h-3 rounded-full bg-danger/80"></div>
+                      <div class="w-3 h-3 rounded-full bg-warning/80"></div>
+                      <div class="w-3 h-3 rounded-full bg-success/80"></div>
+                    </div>
+                    <div class="text-[11px] font-mono text-muted-foreground bg-content1 px-3 py-0.5 rounded-md border border-divider">app.heroui.com</div>
+                    <div class="w-4"></div>
+                  </div>
+
+                  <!-- Mock App Body -->
+                  <div class="grid grid-cols-2 gap-2.5 pt-1">
+                    <div class="p-3 rounded-xl bg-content1 border border-divider">
+                      <div class="text-[10px] text-muted-foreground">Total Revenue</div>
+                      <div class="text-lg font-bold text-foreground mt-0.5">$48,290</div>
+                      <div class="text-[10px] text-success font-medium">↑ +14.2% this week</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-content1 border border-divider">
+                      <div class="text-[10px] text-muted-foreground">Active Sessions</div>
+                      <div class="text-lg font-bold text-foreground mt-0.5">1,420</div>
+                      <div class="text-[10px] text-primary font-medium">● 84 live right now</div>
+                    </div>
+                  </div>
+
+                  <div class="p-3 rounded-xl bg-content1 border border-divider flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                      <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs">JD</div>
+                      <div>
+                        <div class="text-xs font-semibold text-foreground">John Doe</div>
+                        <div class="text-[10px] text-muted-foreground">Upgraded to Pro Plan</div>
+                      </div>
+                    </div>
+                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-success/10 text-success font-medium">Completed</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <template id="code-hero-2">
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+    <!-- Copy Column -->
+    <div class="lg:col-span-6 space-y-6">
+      <span class="px-3 py-1 rounded-full bg-success/10 text-success text-xs font-semibold">HeroUI Split Layout</span>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight">Everything you need to launch.</h1>
+      <p class="text-base text-muted-foreground">Supercharge your application development workflow with our design system tokens.</p>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <input type="email" placeholder="Enter your email" class="h-12 px-4 rounded-xl bg-content2 border border-divider text-foreground focus:ring-2 focus:ring-primary flex-1 text-sm" />
+        <button class="h-12 px-6 rounded-xl bg-primary text-white font-semibold text-sm hover:bg-primary-600 transition">Get Started</button>
+      </div>
+    </div>
+    <!-- Visual / Frame Column -->
+    <div class="lg:col-span-6">
+      <div class="rounded-2xl border border-divider bg-content1 p-6 shadow-heroui-xl">
+        <!-- Interactive Mockup Content -->
+      </div>
+    </div>
+  </div>
+</section>
+        </template>
+      </div>
+
+    </section>
+
+
+
+    <!-- ==================================================== -->
+    <!-- SECTION 4: CARDS & SURFACE CONTAINERS (HEROUI CORE) -->
+    <!-- ==================================================== -->
+    <section id="cards-surfaces" class="container-section space-y-8" data-category="card">
+      <div class="flex items-center justify-between border-b border-divider pb-3">
+        <div>
+          <h2 class="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
+            <span class="p-1.5 rounded-lg bg-primary/10 text-primary text-sm font-mono">04</span>
+            Card Containers & Surface Variants
+          </h2>
+          <p class="text-sm text-muted-foreground">Standard, Elevated, Glassmorphism, Bordered, Pressable & Media Cards.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Card 4.1: Standard HeroUI Card (Header, Body, Footer) -->
+        <div class="container-card bg-content1 border border-divider rounded-2xl p-5 shadow-heroui-sm space-y-4 flex flex-col justify-between" data-name="standard card header body footer">
+          <div>
+            <!-- Card Header -->
+            <div class="flex items-center justify-between pb-3 border-b border-divider">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">01</div>
+                <div>
+                  <h4 class="text-sm font-bold text-foreground">Standard Card</h4>
+                  <p class="text-[11px] text-muted-foreground">Header • Body • Footer</p>
+                </div>
+              </div>
+              <button class="text-muted-foreground hover:text-foreground">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/></svg>
+              </button>
+            </div>
+
+            <!-- Card Body -->
+            <div class="py-4 space-y-2">
+              <p class="text-xs text-muted-foreground leading-relaxed">
+                The foundational HeroUI card structure with isolated header, scrollable body area, and sticky action footer.
+              </p>
+              <div class="p-2.5 rounded-lg bg-content2 text-[11px] font-mono text-muted-foreground">
+                bg-content1 rounded-2xl border border-divider
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Footer -->
+          <div class="pt-3 border-t border-divider flex items-center justify-between">
+            <span class="text-xs text-muted-foreground">Updated 2m ago</span>
+            <button onclick="copySnippet(this, 'code-card-1')" class="px-3 py-1.5 rounded-xl bg-primary text-white text-xs font-semibold hover:bg-primary-600 transition">Copy Card</button>
+          </div>
+
+          <template id="code-card-1">
+<div class="rounded-2xl border border-divider bg-content1 p-5 shadow-heroui-sm flex flex-col justify-between">
+  <!-- Card Header -->
+  <div class="flex items-center justify-between pb-3 border-b border-divider">
+    <h3 class="text-base font-semibold text-foreground">Card Title</h3>
+    <span class="text-xs text-muted-foreground">Badge</span>
+  </div>
+  <!-- Card Body -->
+  <div class="py-4 text-sm text-muted-foreground">
+    <p>Card content and descriptions go here.</p>
+  </div>
+  <!-- Card Footer -->
+  <div class="pt-3 border-t border-divider flex items-center justify-end gap-2">
+    <button class="px-3 py-1.5 rounded-xl text-xs font-medium text-foreground hover:bg-content2">Cancel</button>
+    <button class="px-4 py-1.5 rounded-xl text-xs font-semibold bg-primary text-white hover:bg-primary-600">Save</button>
+  </div>
+</div>
+          </template>
+        </div>
+
+
+        <!-- Card 4.2: Glassmorphic Frost Card -->
+        <div class="container-card glass-surface rounded-2xl p-5 shadow-heroui-md space-y-4 flex flex-col justify-between" data-name="glass frosted glassmorphism card">
+          <div>
+            <div class="flex items-center justify-between pb-3 border-b border-divider">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded-md bg-secondary/10 text-secondary text-[11px] font-semibold">Glassmorphic</span>
+              </div>
+              <span class="text-xs text-muted-foreground font-mono">backdrop-blur</span>
+            </div>
+
+            <div class="py-4 space-y-2">
+              <h4 class="text-sm font-bold text-foreground">Frosted Glass Surface</h4>
+              <p class="text-xs text-muted-foreground leading-relaxed">
+                Translucent background layer with hardware-accelerated <code>backdrop-filter: blur(16px)</code> and refined border sheen.
+              </p>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-divider flex items-center justify-between">
+            <span class="text-xs text-secondary font-medium">Modern Aesthetic</span>
+            <button onclick="copySnippet(this, 'code-card-2')" class="px-3 py-1.5 rounded-xl bg-secondary text-white text-xs font-semibold hover:bg-secondary-600 transition">Copy Glass</button>
+          </div>
+
+          <template id="code-card-2">
+<div class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-black/70 backdrop-blur-xl p-5 shadow-heroui-md">
+  <div class="flex items-center justify-between pb-3 border-b border-divider">
+    <h3 class="text-base font-semibold text-foreground">Glass Container</h3>
+    <span class="text-xs px-2 py-0.5 rounded-full bg-secondary/10 text-secondary">Frosted</span>
+  </div>
+  <div class="py-4 text-sm text-muted-foreground">
+    Floating translucent content overlay with crisp blur filters.
+  </div>
+</div>
+          </template>
+        </div>
+
+
+        <!-- Card 4.3: Interactive / Pressable Hover Card -->
+        <div class="container-card bg-content1 border border-divider rounded-2xl p-5 shadow-heroui-sm hover:shadow-heroui-xl hover:-translate-y-1 hover:border-primary/50 transition-all duration-300 cursor-pointer flex flex-col justify-between group" data-name="interactive pressable hover card">
+          <div>
+            <div class="flex items-center justify-between pb-3 border-b border-divider">
+              <span class="px-2 py-0.5 rounded-md bg-primary/10 text-primary text-[11px] font-semibold">Pressable</span>
+              <svg class="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+
+            <div class="py-4 space-y-2">
+              <h4 class="text-sm font-bold text-foreground group-hover:text-primary transition">Interactive Project Card</h4>
+              <p class="text-xs text-muted-foreground leading-relaxed">
+                Elevates smoothly with hover states, cursor interactions, and active press scale feedback.
+              </p>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-divider flex items-center justify-between">
+            <span class="text-xs text-muted-foreground">Clickable Link</span>
+            <button onclick="copySnippet(this, 'code-card-3')" class="px-3 py-1.5 rounded-xl bg-content2 hover:bg-content3 text-foreground text-xs font-semibold transition">Copy HTML</button>
+          </div>
+
+          <template id="code-card-3">
+<a href="#" class="block rounded-2xl border border-divider bg-content1 p-5 shadow-heroui-sm hover:shadow-heroui-xl hover:-translate-y-1 hover:border-primary/50 transition-all duration-300 group">
+  <div class="flex items-center justify-between pb-3 border-b border-divider">
+    <span class="text-xs font-semibold text-primary">Active Card</span>
+    <span class="text-xs text-muted-foreground group-hover:translate-x-1 transition-transform">→</span>
+  </div>
+  <div class="py-4">
+    <h3 class="text-base font-bold text-foreground group-hover:text-primary transition">Clickable Container</h3>
+    <p class="text-xs text-muted-foreground mt-1">Interactive card for lists, catalogs, and dashboards.</p>
+  </div>
+</a>
+          </template>
+        </div>
+
+
+        <!-- Card 4.4: Full-Bleed Cover Image Media Card -->
+        <div class="container-card bg-content1 border border-divider rounded-2xl overflow-hidden shadow-sm flex flex-col justify-between" data-name="media image cover card">
+          <div>
+            <!-- Media Image Container -->
+            <div class="relative h-36 w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 overflow-hidden">
+              <div class="absolute inset-0 bg-black/20"></div>
+              <div class="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-black/50 backdrop-blur-md text-[10px] text-white font-semibold">Featured</div>
+              <div class="absolute bottom-3 left-3 text-white font-bold text-sm drop-shadow-md">Next-Gen Architecture</div>
+            </div>
+
+            <div class="p-4 space-y-2">
+              <p class="text-xs text-muted-foreground leading-relaxed">
+                Full-bleed image banner header with integrated floating badges and contextual card details.
+              </p>
+            </div>
+          </div>
+
+          <div class="p-4 pt-0 flex items-center justify-between">
+            <span class="text-xs text-muted-foreground">Media Container</span>
+            <button onclick="copySnippet(this, 'code-card-4')" class="px-3 py-1.5 rounded-xl bg-content2 hover:bg-content3 text-foreground text-xs font-semibold transition">Copy Media</button>
+          </div>
+
+          <template id="code-card-4">
+<div class="rounded-2xl border border-divider bg-content1 overflow-hidden shadow-sm">
+  <div class="relative h-48 w-full bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80')">
+    <div class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-xs text-white font-medium">Badge</div>
+  </div>
+  <div class="p-5 space-y-3">
+    <h3 class="text-lg font-bold text-foreground">Media Card Title</h3>
+    <p class="text-xs text-muted-foreground">Detailed description supporting rich imagery.</p>
+    <button class="w-full py-2 rounded-xl bg-primary text-white text-xs font-semibold">View Details</button>
+  </div>
+</div>
+          </template>
+        </div>
+
+
+        <!-- Card 4.5: Metric / KPI Stat Card Container -->
+        <div class="container-card bg-content1 border border-divider rounded-2xl p-5 shadow-heroui-sm space-y-4" data-name="kpi stat metric container">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium text-muted-foreground">Total Active Users</span>
+            <span class="p-2 rounded-xl bg-primary/10 text-primary">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            </span>
+          </div>
+
+          <div>
+            <div class="text-2xl font-extrabold text-foreground">128,940</div>
+            <div class="flex items-center gap-1.5 text-xs text-success mt-1 font-semibold">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+              <span>+18.4% from last month</span>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-divider flex items-center justify-between">
+            <span class="text-[11px] text-muted-foreground font-mono">KPI Metric</span>
+            <button onclick="copySnippet(this, 'code-card-5')" class="px-3 py-1 rounded-lg bg-content2 text-xs font-medium text-foreground hover:bg-content3">Copy</button>
+          </div>
+
+          <template id="code-card-5">
+<div class="rounded-2xl border border-divider bg-content1 p-5 shadow-heroui-sm space-y-3">
+  <div class="flex items-center justify-between">
+    <span class="text-xs font-medium text-muted-foreground">Monthly Recurring Revenue</span>
+    <span class="p-2 rounded-xl bg-success/10 text-success">
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+    </span>
+  </div>
+  <div>
+    <div class="text-2xl font-bold text-foreground">$64,250</div>
+    <div class="flex items-center gap-1 text-xs text-success mt-1 font-semibold">↑ +12.5% vs previous month</div>
+  </div>
+</div>
+          </template>
+        </div>
+
+
+        <!-- Card 4.6: Glowing Highlight / Pricing Tier Card -->
+        <div class="container-card bg-content1 border-2 border-primary rounded-2xl p-5 shadow-heroui-glow-primary relative space-y-4" data-name="pricing highlight tier card">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-primary text-white text-[10px] font-bold uppercase tracking-wider">
+            Most Popular
+          </div>
+
+          <div class="text-center pt-2">
+            <h4 class="text-base font-bold text-foreground">Pro Plan</h4>
+            <div class="text-3xl font-extrabold text-foreground mt-2">$29<span class="text-xs text-muted-foreground font-normal">/mo</span></div>
+          </div>
+
+          <ul class="text-xs text-muted-foreground space-y-2 py-1">
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> Unlimited components</li>
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> Tailwind v4 tokens</li>
+            <li class="flex items-center gap-2"><span class="text-primary font-bold">✓</span> Priority support</li>
+          </ul>
+
+          <button onclick="copySnippet(this, 'code-card-6')" class="w-full py-2 rounded-xl bg-primary text-white text-xs font-semibold hover:bg-primary-600 transition">Copy Pricing Card</button>
+
+          <template id="code-card-6">
+<div class="relative rounded-2xl border-2 border-primary bg-content1 p-6 shadow-heroui-glow-primary space-y-4">
+  <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-primary text-white text-[10px] font-bold uppercase">Popular</div>
+  <div class="text-center">
+    <h3 class="text-lg font-bold text-foreground">Enterprise</h3>
+    <div class="text-3xl font-extrabold text-foreground mt-2">$99<span class="text-xs text-muted-foreground">/mo</span></div>
+  </div>
+  <ul class="space-y-2 text-xs text-muted-foreground">
+    <li class="flex items-center gap-2 text-foreground">✓ Custom Integrations</li>
+    <li class="flex items-center gap-2 text-foreground">✓ 99.9% Uptime SLA</li>
+  </ul>
+  <button class="w-full py-2.5 rounded-xl bg-primary text-white font-semibold text-xs hover:bg-primary-600 transition">Choose Plan</button>
+</div>
+          </template>
+        </div>
+
+      </div>
+    </section>
+
+
+
+    <!-- ==================================================== -->
+    <!-- SECTION 5: BENTO GRIDS & ASYMMETRIC CONTAINERS -->
+    <!-- ==================================================== -->
+    <section id="bento-grids" class="container-section space-y-8" data-category="card">
+      <div class="flex items-center justify-between border-b border-divider pb-3">
+        <div>
+          <h2 class="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
+            <span class="p-1.5 rounded-lg bg-primary/10 text-primary text-sm font-mono">05</span>
+            Bento Grid Layout Containers
+          </h2>
+          <p class="text-sm text-muted-foreground">Modern asymmetric grid patterns with multi-span feature boxes.</p>
+        </div>
+        <button onclick="copySnippet(this, 'code-bento-1')" class="px-2.5 py-1 rounded-lg text-xs bg-content2 hover:bg-content3 text-foreground font-medium flex items-center gap-1.5 transition">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+          <span>Copy Bento Grid</span>
+        </button>
+      </div>
+
+      <!-- Bento Grid Live Component -->
+      <div class="container-card grid grid-cols-1 md:grid-cols-3 gap-4" data-name="bento grid asymmetric layout">
+        
+        <!-- Large Span 2x2 Bento Box -->
+        <div class="md:col-span-2 rounded-2xl border border-divider bg-content1 p-6 flex flex-col justify-between shadow-sm relative overflow-hidden">
+          <div class="absolute right-0 bottom-0 w-48 h-48 bg-primary/10 rounded-full blur-3xl"></div>
+          <div class="space-y-2 relative z-10">
+            <span class="px-2.5 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-semibold">Hero Feature</span>
+            <h3 class="text-xl font-bold text-foreground">Interactive Component Matrix</h3>
+            <p class="text-xs text-muted-foreground max-w-md">
+              Span-2 container designed for high-priority product features, interactive charts, and rich mockups.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-divider flex items-center justify-between text-xs text-muted-foreground">
+            <span>Responsive col-span-2</span>
+            <span class="text-primary font-semibold">Explore Demo →</span>
+          </div>
+        </div>
+
+        <!-- Tall Box 1x2 -->
+        <div class="rounded-2xl border border-divider bg-content1 p-6 flex flex-col justify-between shadow-sm">
+          <div class="space-y-2">
+            <span class="px-2.5 py-1 rounded-full bg-secondary/10 text-secondary text-[11px] font-semibold">Analytics</span>
+            <h3 class="text-base font-bold text-foreground">Live Telemetry</h3>
+            <p class="text-xs text-muted-foreground">Continuous monitoring with instant alerts.</p>
+          </div>
+          <div class="p-3 rounded-xl bg-content2 border border-divider text-center mt-4">
+            <span class="text-2xl font-bold text-foreground">99.98%</span>
+            <p class="text-[10px] text-success font-medium">Uptime Status</p>
+          </div>
+        </div>
+
+        <!-- 3 Bottom Equal Small Boxes -->
+        <div class="rounded-2xl border border-divider bg-content1 p-5 shadow-sm space-y-2">
+          <div class="w-8 h-8 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">⚡</div>
+          <h4 class="text-sm font-bold text-foreground">Sub-millisecond Speed</h4>
+          <p class="text-xs text-muted-foreground">Engineered for lightning fast renders.</p>
+        </div>
+
+        <div class="rounded-2xl border border-divider bg-content1 p-5 shadow-sm space-y-2">
+          <div class="w-8 h-8 rounded-xl bg-success/10 text-success flex items-center justify-center font-bold text-xs">🛡</div>
+          <h4 class="text-sm font-bold text-foreground">WCAG 2.1 Accessible</h4>
+          <p class="text-xs text-muted-foreground">Keyboard navigation and screen readers ready.</p>
+        </div>
+
+        <div class="rounded-2xl border border-divider bg-content1 p-5 shadow-sm space-y-2">
+          <div class="w-8 h-8 rounded-xl bg-warning/10 text-warning flex items-center justify-center font-bold text-xs">🎨</div>
+          <h4 class="text-sm font-bold text-foreground">Tailwind Tokens</h4>
+          <p class="text-xs text-muted-foreground">Effortless theming with dynamic CSS vars.</p>
+        </div>
+
+      </div>
+
+      <template id="code-bento-1">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <!-- 2-Column Hero Card -->
+  <div class="md:col-span-2 rounded-2xl border border-divider bg-content1 p-6 flex flex-col justify-between">
+    <div class="space-y-2">
+      <span class="px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">Primary Feature</span>
+      <h3 class="text-2xl font-bold text-foreground">Main Bento Card</h3>
+      <p class="text-sm text-muted-foreground">Wide card suitable for product dashboards or media.</p>
+    </div>
+  </div>
+
+  <!-- Single Column Card -->
+  <div class="rounded-2xl border border-divider bg-content1 p-6">
+    <h3 class="text-lg font-bold text-foreground">Side Metric</h3>
+  </div>
+
+  <!-- 3 Equal Cards Below -->
+  <div class="rounded-2xl border border-divider bg-content1 p-5">Feature 1</div>
+  <div class="rounded-2xl border border-divider bg-content1 p-5">Feature 2</div>
+  <div class="rounded-2xl border border-divider bg-content1 p-5">Feature 3</div>
+</div>
+      </template>
+    </section>
+
+
+
+    <!-- ==================================================== -->
+    <!-- SECTION 6: DASHBOARD & APP LAYOUT SHELLS -->
+    <!-- ==================================================== -->
+    <section id="dashboard-layouts" class="container-section space-y-8" data-category="app">
+      <div class="flex items-center justify-between border-b border-divider pb-3">
+        <div>
+          <h2 class="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
+            <span class="p-1.5 rounded-lg bg-primary/10 text-primary text-sm font-mono">06</span>
+            Dashboard & Web Application Shells
+          </h2>
+          <p class="text-sm text-muted-foreground">Complete master app layouts: Sidebar + Topbar + Content, 3-Pane split layouts & Data Tables.</p>
+        </div>
+      </div>
+
+      <!-- App Shell 6.1: Sidebar + Sticky Topbar + Content Canvas -->
+      <div class="container-card bg-content1 border border-divider rounded-2xl overflow-hidden shadow-sm" data-name="dashboard master sidebar topbar shell">
+        <div class="px-5 py-3.5 border-b border-divider bg-content2/50 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+            <span class="text-xs font-mono font-semibold text-foreground">Shell 6.1: Full Admin / SaaS Workspace Shell</span>
+          </div>
+          <button onclick="copySnippet(this, 'code-app-1')" class="px-2.5 py-1 rounded-lg text-xs bg-content3 hover:bg-content4 text-foreground font-medium flex items-center gap-1.5 transition">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+            <span>Copy App Shell</span>
+          </button>
+        </div>
+
+        <div class="p-4 sm:p-6 bg-content2/30">
+          <!-- The Complete Mini Dashboard Shell Preview -->
+          <div class="w-full h-96 rounded-2xl border border-divider bg-background overflow-hidden flex shadow-heroui-lg">
+            
+            <!-- Left Sidebar -->
+            <aside class="w-52 border-r border-divider bg-content1 p-4 hidden sm:flex flex-col justify-between shrink-0">
+              <div class="space-y-4">
+                <div class="flex items-center gap-2 px-2">
+                  <div class="w-6 h-6 rounded-lg bg-primary text-white flex items-center justify-center font-bold text-xs">H</div>
+                  <span class="text-xs font-bold text-foreground">Acme Studio</span>
+                </div>
+                <nav class="space-y-1 text-xs">
+                  <a href="javascript:void(0)" class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-primary/10 text-primary font-semibold">Overview</a>
+                  <a href="javascript:void(0)" class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-content2">Projects</a>
+                  <a href="javascript:void(0)" class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-content2">Analytics</a>
+                  <a href="javascript:void(0)" class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-content2">Settings</a>
+                </nav>
+              </div>
+              <div class="p-2 rounded-xl bg-content2 border border-divider flex items-center gap-2 text-xs">
+                <div class="w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-[10px]">A</div>
+                <span class="text-foreground font-medium truncate">alex@acme.com</span>
+              </div>
+            </aside>
+
+            <!-- Main Panel -->
+            <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+              <!-- Top Sticky Toolbar -->
+              <header class="h-12 border-b border-divider bg-content1/80 px-4 flex items-center justify-between gap-2 shrink-0">
+                <div class="text-xs font-semibold text-foreground flex items-center gap-2">
+                  <span>Workspace</span>
+                  <span class="text-muted-foreground">/</span>
+                  <span class="text-muted-foreground">Projects</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-success"></span>
+                  <span class="text-[11px] text-muted-foreground">Online</span>
+                </div>
+              </header>
+
+              <!-- Scrollable Content Canvas -->
+              <div class="flex-1 p-4 overflow-y-auto space-y-4">
+                <div class="grid grid-cols-3 gap-3">
+                  <div class="p-3 rounded-xl bg-content1 border border-divider text-xs">
+                    <div class="text-muted-foreground text-[10px]">Active Tasks</div>
+                    <div class="text-base font-bold text-foreground">34</div>
+                  </div>
+                  <div class="p-3 rounded-xl bg-content1 border border-divider text-xs">
+                    <div class="text-muted-foreground text-[10px]">Completed</div>
+                    <div class="text-base font-bold text-foreground">128</div>
+                  </div>
+                  <div class="p-3 rounded-xl bg-content1 border border-divider text-xs">
+                    <div class="text-muted-foreground text-[10px]">Pending Review</div>
+                    <div class="text-base font-bold text-foreground">6</div>
+                  </div>
+                </div>
+
+                <div class="p-4 rounded-xl bg-content1 border border-divider space-y-2">
+                  <div class="text-xs font-semibold text-foreground">Recent Activity Stream</div>
+                  <div class="space-y-1.5 text-xs text-muted-foreground">
+                    <div class="p-2 rounded-lg bg-content2 flex justify-between">
+                      <span>Updated design tokens to Tailwind v4</span>
+                      <span class="text-[10px]">10m ago</span>
+                    </div>
+                    <div class="p-2 rounded-lg bg-content2 flex justify-between">
+                      <span>Deployed HeroUI v3 container package</span>
+                      <span class="text-[10px]">1h ago</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <template id="code-app-1">
+<!-- Main Application Layout Shell -->
+<div class="min-h-screen w-full flex bg-background text-foreground font-sans">
+  <!-- Sidebar -->
+  <aside class="w-64 border-r border-divider bg-content1 p-4 hidden md:flex flex-col justify-between shrink-0">
+    <div class="space-y-6">
+      <div class="flex items-center gap-3 px-2">
+        <div class="w-8 h-8 rounded-xl bg-primary text-white flex items-center justify-center font-bold text-sm">H</div>
+        <span class="font-bold text-foreground">HeroUI Studio</span>
+      </div>
+      <nav class="space-y-1 text-sm font-medium">
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl bg-primary/10 text-primary font-semibold">Dashboard</a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl text-muted-foreground hover:bg-content2 hover:text-foreground">Customers</a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl text-muted-foreground hover:bg-content2 hover:text-foreground">Settings</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Content Area -->
+  <div class="flex-1 flex flex-col min-w-0">
+    <!-- Sticky Header -->
+    <header class="h-16 border-b border-divider bg-content1/80 backdrop-blur-md px-6 flex items-center justify-between sticky top-0 z-40">
+      <h1 class="text-lg font-bold text-foreground">Projects Overview</h1>
+      <div class="flex items-center gap-3">
+        <button class="px-4 py-2 rounded-xl bg-primary text-white text-xs font-semibold">Add New</button>
+      </div>
+    </header>
+
+    <!-- Main Content Canvas -->
+    <main class="flex-1 p-6 overflow-y-auto max-w-7xl mx-auto w-full space-y-6">
+      <!-- Your page grids and tables go here -->
+    </main>
+  </div>
+</div>
+        </template>
+      </div>
+
+
+      <!-- App Shell 6.2: Scrollable Data Table Container with Sticky Columns -->
+      <div class="container-card bg-content1 border border-divider rounded-2xl overflow-hidden shadow-sm" data-name="data table container scrollable sticky">
+        <div class="px-5 py-3.5 border-b border-divider bg-content2/50 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-warning"></span>
+            <span class="text-xs font-mono font-semibold text-foreground">Container 6.2: Responsive Data Table Container</span>
+          </div>
+          <button onclick="copySnippet(this, 'code-app-2')" class="px-2.5 py-1 rounded-lg text-xs bg-content3 hover:bg-content4 text-foreground font-medium flex items-center gap-1.5 transition">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+            <span>Copy Table</span>
+          </button>
+        </div>
+
+        <div class="p-4 sm:p-6 bg-content2/20">
+          <!-- Overflow Safe Table Wrapper -->
+          <div class="rounded-2xl border border-divider bg-content1 overflow-hidden shadow-sm">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-content2/70 border-b border-divider text-muted-foreground uppercase font-semibold text-[10px]">
+                  <tr>
+                    <th class="px-4 py-3">User</th>
+                    <th class="px-4 py-3">Role</th>
+                    <th class="px-4 py-3">Status</th>
+                    <th class="px-4 py-3">Activity</th>
+                    <th class="px-4 py-3 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-divider">
+                  <tr class="hover:bg-content2/50 transition">
+                    <td class="px-4 py-3 font-medium text-foreground flex items-center gap-2">
+                      <div class="w-7 h-7 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-xs">EM</div>
+                      <span>Emily Morales</span>
+                    </td>
+                    <td class="px-4 py-3 text-muted-foreground">Product Designer</td>
+                    <td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full bg-success/10 text-success font-medium text-[11px]">Active</span></td>
+                    <td class="px-4 py-3 text-muted-foreground">2 hours ago</td>
+                    <td class="px-4 py-3 text-right text-primary font-semibold cursor-pointer hover:underline">Edit</td>
+                  </tr>
+                  <tr class="hover:bg-content2/50 transition">
+                    <td class="px-4 py-3 font-medium text-foreground flex items-center gap-2">
+                      <div class="w-7 h-7 rounded-full bg-secondary/20 text-secondary flex items-center justify-center font-bold text-xs">MK</div>
+                      <span>Michael Kane</span>
+                    </td>
+                    <td class="px-4 py-3 text-muted-foreground">Frontend Engineer</td>
+                    <td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full bg-warning/10 text-warning font-medium text-[11px]">Pending</span></td>
+                    <td class="px-4 py-3 text-muted-foreground">Yesterday</td>
+                    <td class="px-4 py-3 text-right text-primary font-semibold cursor-pointer hover:underline">Edit</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Table Pagination Bar -->
+            <div class="px-4 py-3 border-t border-divider bg-content2/40 flex items-center justify-between text-xs text-muted-foreground">
+              <span>Showing 1 to 2 of 48 entries</span>
+              <div class="flex items-center gap-1">
+                <button class="px-2.5 py-1 rounded-lg bg-content1 border border-divider hover:bg-content3 transition">Prev</button>
+                <button class="px-2.5 py-1 rounded-lg bg-primary text-white font-semibold">1</button>
+                <button class="px-2.5 py-1 rounded-lg bg-content1 border border-divider hover:bg-content3 transition">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <template id="code-app-2">
+<div class="rounded-2xl border border-divider bg-content1 overflow-hidden shadow-sm">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left text-sm">
+      <thead class="bg-content2/60 border-b border-divider text-muted-foreground text-xs uppercase font-semibold">
+        <tr>
+          <th class="px-4 py-3">Name</th>
+          <th class="px-4 py-3">Status</th>
+          <th class="px-4 py-3 text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-divider text-foreground text-xs">
+        <tr class="hover:bg-content2/50 transition">
+          <td class="px-4 py-3 font-medium">Item 1</td>
+          <td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full bg-success/10 text-success">Active</span></td>
+          <td class="px-4 py-3 text-right"><button class="text-primary font-medium hover:underline">View</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- Table Footer -->
+  <div class="px-4 py-3 border-t border-divider flex items-center justify-between text-xs text-muted-foreground">
+    <span>Page 1 of 5</span>
+  </div>
+</div>
+        </template>
+      </div>
+
+    </section>
+
+
+
+    <!-- ==================================================== -->
+    <!-- SECTION 7: FORM, SETTINGS & DIALOG CONTAINERS -->
+    <!-- ==================================================== -->
+    <section id="form-containers" class="container-section space-y-8" data-category="form">
+      <div class="flex items-center justify-between border-b border-divider pb-3">
+        <div>
+          <h2 class="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
+            <span class="p-1.5 rounded-lg bg-primary/10 text-primary text-sm font-mono">07</span>
+            Form, Settings & Modal Containers
+          </h2>
+          <p class="text-sm text-muted-foreground">Grouped Fieldsets, Setting preference lists, and focused Dialog Overlays.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Form 7.1: Grouped Settings Panel Container -->
+        <div class="container-card bg-content1 border border-divider rounded-2xl p-6 shadow-sm space-y-5" data-name="settings panel form container">
+          <div class="flex items-center justify-between pb-3 border-b border-divider">
+            <div>
+              <h3 class="text-base font-bold text-foreground">Notification Preferences</h3>
+              <p class="text-xs text-muted-foreground">Manage how your account receives updates.</p>
+            </div>
+            <button onclick="copySnippet(this, 'code-form-1')" class="px-2.5 py-1 rounded-lg text-xs bg-content2 hover:bg-content3 text-foreground font-medium">Copy Form</button>
+          </div>
+
+          <!-- Setting Rows -->
+          <div class="space-y-3">
+            <div class="p-3.5 rounded-xl bg-content2/60 border border-divider flex items-center justify-between gap-4">
+              <div>
+                <div class="text-xs font-semibold text-foreground">Push Notifications</div>
+                <div class="text-[11px] text-muted-foreground">Receive real-time alerts on your devices.</div>
+              </div>
+              <!-- Simulated Switch -->
+              <div class="w-10 h-6 rounded-full bg-primary p-0.5 flex items-center justify-end cursor-pointer">
+                <div class="w-5 h-5 rounded-full bg-white shadow-sm"></div>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-content2/60 border border-divider flex items-center justify-between gap-4">
+              <div>
+                <div class="text-xs font-semibold text-foreground">Weekly Digest</div>
+                <div class="text-[11px] text-muted-foreground">A weekly summary of account activity.</div>
+              </div>
+              <div class="w-10 h-6 rounded-full bg-content4 p-0.5 flex items-center justify-start cursor-pointer">
+                <div class="w-5 h-5 rounded-full bg-white shadow-sm"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Form Actions Footer -->
+          <div class="pt-3 border-t border-divider flex items-center justify-end gap-2">
+            <button class="px-3 py-1.5 rounded-xl bg-content2 hover:bg-content3 text-xs font-medium text-foreground">Reset</button>
+            <button class="px-4 py-1.5 rounded-xl bg-primary hover:bg-primary-600 text-xs font-semibold text-white">Save Changes</button>
+          </div>
+
+          <template id="code-form-1">
+<div class="rounded-2xl border border-divider bg-content1 p-6 space-y-4">
+  <div class="border-b border-divider pb-3">
+    <h3 class="text-lg font-bold text-foreground">Preferences</h3>
+  </div>
+  <div class="space-y-3">
+    <div class="p-4 rounded-xl bg-content2/60 border border-divider flex items-center justify-between">
+      <div>
+        <div class="text-sm font-semibold text-foreground">Email Alerts</div>
+        <div class="text-xs text-muted-foreground">Receive updates via email.</div>
+      </div>
+      <input type="checkbox" checked class="w-5 h-5 accent-primary rounded" />
+    </div>
+  </div>
+  <div class="flex justify-end gap-2 pt-3 border-t border-divider">
+    <button class="px-4 py-2 rounded-xl bg-primary text-white text-xs font-semibold">Save</button>
+  </div>
+</div>
+          </template>
+        </div>
+
+
+        <!-- Form 7.2: Modal Dialog Container (Centered Overlay Box) -->
+        <div class="container-card bg-content1 border border-divider rounded-2xl p-6 shadow-heroui-lg space-y-4 relative" data-name="modal dialog container overlay">
+          <div class="flex items-center justify-between pb-3 border-b border-divider">
+            <div class="flex items-center gap-2">
+              <span class="p-1 rounded-lg bg-danger/10 text-danger text-xs">⚠️</span>
+              <h3 class="text-base font-bold text-foreground">Modal / Dialog Box</h3>
+            </div>
+            <button onclick="copySnippet(this, 'code-form-2')" class="px-2.5 py-1 rounded-lg text-xs bg-content2 hover:bg-content3 text-foreground font-medium">Copy Modal</button>
+          </div>
+
+          <div class="space-y-3">
+            <p class="text-xs text-muted-foreground leading-relaxed">
+              Standard modal container intended for high-priority confirmation dialogs, delete confirmations, or creation wizards.
+            </p>
+            <div class="p-3 rounded-xl bg-danger/5 border border-danger/20 text-xs text-danger">
+              Warning: This action cannot be undone. All project files will be permanently deleted.
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-divider flex items-center justify-end gap-2">
+            <button class="px-3.5 py-2 rounded-xl bg-content2 hover:bg-content3 text-xs font-medium text-foreground">Cancel</button>
+            <button class="px-4 py-2 rounded-xl bg-danger hover:bg-danger-600 text-xs font-semibold text-white shadow-sm">Delete Project</button>
+          </div>
+
+          <template id="code-form-2">
+<!-- Modal Dialog Backdrop Container -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+  <div class="w-full max-w-md rounded-3xl border border-divider bg-content1 p-6 shadow-heroui-xl space-y-4">
+    <!-- Header -->
+    <div class="flex items-center justify-between pb-3 border-b border-divider">
+      <h3 class="text-lg font-bold text-foreground">Confirm Action</h3>
+      <button class="text-muted-foreground hover:text-foreground">✕</button>
+    </div>
+    <!-- Body -->
+    <div class="py-2 text-sm text-muted-foreground">
+      Are you sure you want to proceed with this operation?
+    </div>
+    <!-- Footer -->
+    <div class="pt-3 border-t border-divider flex items-center justify-end gap-2">
+      <button class="px-4 py-2 rounded-xl bg-content2 text-xs font-semibold">Cancel</button>
+      <button class="px-4 py-2 rounded-xl bg-primary text-white text-xs font-semibold">Confirm</button>
+    </div>
+  </div>
+</div>
+          </template>
+        </div>
+
+      </div>
+    </section>
+
+
+
+    <!-- ==================================================== -->
+    <!-- SECTION 8: BANNERS, ALERTS & FEEDBACK CONTAINERS -->
+    <!-- ==================================================== -->
+    <section id="banners-feedback" class="container-section space-y-8" data-category="feedback">
+      <div class="flex items-center justify-between border-b border-divider pb-3">
+        <div>
+          <h2 class="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
+            <span class="p-1.5 rounded-lg bg-primary/10 text-primary text-sm font-mono">08</span>
+            Banners, Alerts & Feedback Containers
+          </h2>
+          <p class="text-sm text-muted-foreground">Sticky announcement bars, status callouts, empty states, and dismissible banners.</p>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+
+        <!-- Banner 8.1: Sticky Top Announcement Banner -->
+        <div class="container-card rounded-2xl bg-gradient-to-r from-primary to-secondary p-4 text-white shadow-heroui-md flex flex-col sm:flex-row items-center justify-between gap-3" data-name="top announcement banner">
+          <div class="flex items-center gap-2.5 text-xs">
+            <span class="px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md font-bold uppercase text-[10px]">New</span>
+            <span class="font-medium">HeroUI v3 is live with Tailwind CSS v4 support! Check out the documentation.</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <a href="#" class="px-3 py-1 rounded-xl bg-white text-primary text-xs font-bold hover:bg-white/90 transition">Read More</a>
+            <button onclick="copySnippet(this, 'code-banner-1')" class="px-2.5 py-1 rounded-xl bg-black/20 text-white text-xs hover:bg-black/30 transition">Copy</button>
+          </div>
+
+          <template id="code-banner-1">
+<div class="w-full bg-gradient-to-r from-primary to-secondary px-4 py-3 text-white flex items-center justify-between gap-4">
+  <div class="flex items-center gap-2 text-sm font-medium">
+    <span class="px-2 py-0.5 rounded-full bg-white/20 text-xs font-bold">Update</span>
+    <span>Special discount applied for team plans!</span>
+  </div>
+  <a href="#" class="px-3 py-1 rounded-xl bg-white text-primary font-bold text-xs hover:bg-white/90">Claim Now</a>
+</div>
+          </template>
+        </div>
+
+
+        <!-- Banner 8.2: 4-Color Semantic Alert Boxes -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          
+          <!-- Success Alert -->
+          <div class="container-card p-4 rounded-2xl bg-success-50 dark:bg-success-50/10 border border-success/30 flex items-start gap-3" data-name="success alert container">
+            <div class="w-6 h-6 rounded-full bg-success text-white flex items-center justify-center font-bold text-xs shrink-0">✓</div>
+            <div class="text-xs space-y-0.5">
+              <div class="font-bold text-foreground">Deployment Successful</div>
+              <div class="text-muted-foreground">Your project has been deployed to edge servers worldwide.</div>
+            </div>
+          </div>
+
+          <!-- Danger Alert -->
+          <div class="container-card p-4 rounded-2xl bg-danger-50 dark:bg-danger-50/10 border border-danger/30 flex items-start gap-3" data-name="danger alert container">
+            <div class="w-6 h-6 rounded-full bg-danger text-white flex items-center justify-center font-bold text-xs shrink-0">✕</div>
+            <div class="text-xs space-y-0.5">
+              <div class="font-bold text-foreground">API Connection Failed</div>
+              <div class="text-muted-foreground">Unable to establish connection to database cluster.</div>
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- Banner 8.3: Empty State Zero-Data Container -->
+        <div class="container-card rounded-2xl border-2 border-dashed border-divider bg-content1 p-8 text-center space-y-3" data-name="empty state zero data container">
+          <div class="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mx-auto text-xl font-bold">
+            📂
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-base font-bold text-foreground">No Projects Found</h3>
+            <p class="text-xs text-muted-foreground max-w-sm mx-auto">
+              Get started by creating your first project workspace or importing from GitHub.
+            </p>
+          </div>
+          <div class="pt-2 flex justify-center gap-2">
+            <button class="px-4 py-2 rounded-xl bg-primary text-white text-xs font-semibold hover:bg-primary-600 transition">Create Project</button>
+            <button onclick="copySnippet(this, 'code-empty-1')" class="px-3 py-2 rounded-xl bg-content2 text-xs font-medium text-foreground hover:bg-content3 transition">Copy Empty State</button>
+          </div>
+
+          <template id="code-empty-1">
+<div class="rounded-2xl border-2 border-dashed border-divider bg-content1 p-8 text-center space-y-4">
+  <div class="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mx-auto text-xl">📁</div>
+  <div>
+    <h3 class="text-base font-bold text-foreground">No Items Here</h3>
+    <p class="text-xs text-muted-foreground mt-1">Start by adding your first item to this list.</p>
+  </div>
+  <button class="px-4 py-2 rounded-xl bg-primary text-white text-xs font-semibold">Add Item</button>
+</div>
+          </template>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ========================================== -->
+  <!-- TOAST NOTIFICATION POPUP -->
+  <!-- ========================================== -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="px-4 py-2.5 rounded-2xl bg-foreground text-background shadow-heroui-xl flex items-center gap-2 text-xs font-semibold">
+      <svg class="w-4 h-4 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+      <span id="toastMsg">Code copied to clipboard!</span>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- INTERACTIVE SCRIPTS -->
+  <!-- ========================================== -->
+  <script>
+    // Theme Toggle Functionality
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+
+    // Initialize Theme
+    (function initTheme() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light') {
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+
+    // Copy Code Snippet Function
+    function copySnippet(buttonElement, templateId) {
+      const template = document.getElementById(templateId);
+      if (!template) return;
+
+      const codeText = template.innerHTML.trim();
+      navigator.clipboard.writeText(codeText).then(() => {
+        showToast('HTML Container copied to clipboard!');
+        
+        // Button visual feedback
+        const originalText = buttonElement.innerHTML;
+        buttonElement.classList.add('btn-copied', 'bg-success', 'text-white');
+        buttonElement.innerHTML = `<span>Copied!</span>`;
+
+        setTimeout(() => {
+          buttonElement.classList.remove('btn-copied', 'bg-success', 'text-white');
+          buttonElement.innerHTML = originalText;
+        }, 1800);
+      });
+    }
+
+    // Copy Entire HTML Document Link / Alert
+    function copyPageHtml() {
+      navigator.clipboard.writeText(window.location.href);
+      showToast('Document link copied to clipboard!');
+    }
+
+    // Show Toast Notification
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.textContent = message;
+      
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 2500);
+    }
+
+    // Category Filter Function
+    function filterCategory(cat) {
+      const sections = document.querySelectorAll('.container-section');
+      const pills = document.querySelectorAll('.cat-pill');
+
+      pills.forEach(pill => {
+        pill.classList.remove('active', 'bg-primary', 'text-white');
+        pill.classList.add('bg-content2', 'text-foreground');
+      });
+
+      event.target.classList.add('active', 'bg-primary', 'text-white');
+      event.target.classList.remove('bg-content2', 'text-foreground');
+
+      sections.forEach(sec => {
+        if (cat === 'all' || sec.getAttribute('data-category') === cat) {
+          sec.style.display = 'block';
+        } else {
+          sec.style.display = 'none';
+        }
+      });
+    }
+
+    // Real-time Search Filter
+    function filterContainers(query) {
+      const q = query.toLowerCase().trim();
+      const cards = document.querySelectorAll('.container-card');
+
+      cards.forEach(card => {
+        const name = card.getAttribute('data-name') || '';
+        const text = card.textContent.toLowerCase();
+        if (q === '' || name.includes(q) || text.includes(q)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
